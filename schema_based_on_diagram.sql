@@ -29,6 +29,8 @@ CREATE TABLE medical_histories_treatments(
     FOREIGN KEY (treatment_id) REFERENCES treatments(id)
 );
 
+CREATE INDEX idx_treatment_history ON medical_histories_treatments (medical_history_id,treatment_id);
+
 CREATE TABLE invoices(
     id INT NOT NULL AUTO_INCREMENT,
     total_amount DECIMAL(10,2) NOT NULL,
@@ -38,6 +40,8 @@ CREATE TABLE invoices(
     PRIMARY KEY (id),
     FOREIGN KEY (medical_history_id) REFERENCES medical_histories(id)
 );
+
+CREATE INDEX idx_invoice_medical_history_id ON invoices(medical_history_id);
 
 CREATE TABLE invoice_items(
     id INT NOT NULL AUTO_INCREMENT,
@@ -50,3 +54,5 @@ CREATE TABLE invoice_items(
     FOREIGN KEY (invoice_id) REFERENCES invoices(id),
     FOREIGN KEY (treatment_id) REFERENCES treatments(id)
 );
+
+CREATE INDEX idx_invoice_item_invoice ON invoice_items(invoice_id,treatment_id);
